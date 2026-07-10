@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenium-hub
+  namespace: test-automation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: selenium-hub
+  template:
+    metadata:
+      labels:
+        app: selenium-hub
+    spec:
+      containers:
+      - name: selenium-hub
+        image: selenium/hub:4.21.0
+        ports:
+        - containerPort: 4442
+          protocol: TCP
+        - containerPort: 4443
+          protocol: TCP
+        - containerPort: 4444
+          protocol: TCP

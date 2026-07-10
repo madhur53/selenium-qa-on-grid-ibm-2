@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  selenium-hub:
+    image: selenium/hub:4.18.1
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  chrome-node:
+    image: selenium/node-chrome:4.18.1
+    container_name: chrome-node
+    shm_size: 2gb
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+  test-runner:
+    build: .
+    container_name: test-runner
+    depends_on:
+      chrome-node:
+        condition: service_started
+    environment:
+      - SELENIUM_REMOTE_URL=http://selenium-hub:4444/wd/hub
+      - EXECUTION_ENV=REMOTE
+    volumes:
+      - ./test-results:/tests/target/surefire-reports

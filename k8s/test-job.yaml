@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: selenium-test-runner
+  namespace: test-automation
+spec:
+ # ttlSecondsAfterFinished: 100 
+  template:
+    spec:
+      containers:
+      - name: test-runner
+        image: my-selenium-tests:1.0 
+        imagePullPolicy: Never 
+        env:
+        - name: SELENIUM_REMOTE_URL
+          value: "http://selenium-hub:4444/wd/hub" 
+        - name: EXECUTION_ENV
+          value: REMOTE
+        # --- Add this section to mount inside the container ---
+        volumeMounts:
+        - name: reports-volume
+          mountPath: /tests/target/surefire-reports
+      restartPolicy: Never 
+      # --- Add this section to bridge to Minikube ---
+      volumes:
+      - name: reports-volume
+        hostPath:
+          path: /mnt/test-results
+          type: DirectoryOrCreate
+  backoffLimit: 0 
+

@@ -1,0 +1,10 @@
+.metadata/
+.classpath
+.factorypath
+.project
+.settings/
+target/
+bin/
+build/
+test-output/
+test-results/
