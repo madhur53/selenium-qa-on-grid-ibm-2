@@ -28,7 +28,7 @@ public class WebDriverFactory {
             // Configuration for local development
         	options.addArguments("--headless", "--no-sandbox", 
         			"--disable-dev-shm-usage", "--disable-gpu");
-            return new ChromeDriver();
+            return new ChromeDriver(options);
         }
     }
 }
