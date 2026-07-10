@@ -16,9 +16,9 @@ public class WebDriverFactory {
             env = "LOCAL";
         }
 
+        ChromeOptions options = new ChromeOptions();
         if (env.equalsIgnoreCase("REMOTE")) {
             // Configuration for Selenium Grid / Docker
-            ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless", "--no-sandbox",
                     "--disable-dev-shm-usage", "--disable-gpu");
             // selenium-hub is docker service name
@@ -26,6 +26,8 @@ public class WebDriverFactory {
             return new RemoteWebDriver(new URL(gridUrl), options);
         } else {
             // Configuration for local development
+        	options.addArguments("--headless", "--no-sandbox", 
+        			"--disable-dev-shm-usage", "--disable-gpu");
             return new ChromeDriver();
         }
     }
