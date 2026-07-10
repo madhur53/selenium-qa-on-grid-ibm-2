@@ -70,6 +70,12 @@
 		    <artifactId>maven-clean-plugin</artifactId>
 		    <version>3.4.0</version> <!-- Use a modern version -->
 		</plugin>
+		
+		<plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-report-plugin</artifactId>
+      <version>3.2.5</version>
+    </plugin>
     </plugins>
 </build>
 
